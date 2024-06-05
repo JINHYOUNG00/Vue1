@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input v-model.trim="inputNum">
+        <button @click="delHandler">모두삭제</button>
+        <button @click="findHandler">검색</button>
+        <button @click="sortHandler">정렬</button>
+        <button @click="addHandler">추가</button>
+        <div style="height: 200px;">
+            <ul>
+                <li v-for="fruit in arr" v-text="fruit"></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    inputNum: '',
+                    arr: ['바나나','사과']
+                }
+            },
+            computed: {
+            
+            },
+            methods: {
+                addHandler(){
+                    if(!this.inputNum == '') {
+                        this.arr.push(this.inputNum);
+                        this.inputNum = '';
+                    }
+                },
+                delHandler(){
+                    this.arr = [];
+                    this.inputNum = '';
+                },
+                sortHandler(){
+                    this.arr.sort((a,b) => {
+                        if(a > b) return 1;
+                        else if(a == b) return 0;
+                        else return -1;
+                    });
+                },
+                findHandler(){
+                    const result = this.arr.find((ele) => {
+                        this.inputNum == ele;
+                    })
+                    if(result == undefined) {
+                        alert('없음')
+                    } else {
+                        alert('있음')
+                    }
+                }
+            },
+        }).mount('#app')
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        .movieBoard {
+            border: 1px, solid, tomato;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div v-show="isLoading">로딩중</div>
+        <input v-model="targetDt"><button @click="btnEventHandler(this.targetDt)">검색</button>
+        <div v-for="m in movies" class="movieBoard">
+            <div><span v-text="m.movieNm">영화명</span> <span v-text="m.movieCd" @click="movieInfo(m.movieCd)">영화코드</span>
+            </div>
+        </div>
+        <div v-if="noRender">actors : <span v-for="a in actors" v-text="a.peopleNm"></span></div>
+        <div v-if="noRender">directors : <span v-for="d in directors" v-text="d.peopleNm"></span></div>
+    </div>
+
+    <script>
+        const url2 = `https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=f5eef3421c602c6cb7ea224104795888&movieCd=`;
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    movies:
+                        [{ movieNm: '듄', movieCd: 200 }],
+                    actors: [{ peopleNm: '홍길동' }, { peopleNm: '김기자' }],
+                    directors: [{ peopleNm: '나감독' }, { peopleNm: '이감독' }],
+                    isLoading: false,
+                    noRender: false
+                }
+            },
+            methods: {
+                movieInfo(movieCd) {
+                    fetch(url2 + movieCd)
+                        .then(resolve => resolve.json())
+                        .then(result => {
+                            console.log(result);
+                            this.actors = result.movieInfoResult.movieInfo.actors;
+                            this.directors = result.movieInfoResult.movieInfo.directors;
+                        })
+                },
+                getMovies(dt) {
+                    const url = `https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=`;
+                    fetch(url + dt)
+                        .then(resolve => resolve.json())
+                        .then(result => {
+                            this.movies = result.boxOfficeResult.dailyBoxOfficeList
+                            this.isLoading = false;
+                            this.isLoading = false;
+                        })
+                },
+                btnEventHandler(dt) {
+                    if (!dt == '') {
+                        this.getMovies(dt);
+                    } else {
+                        alert('날짜를 입력하세요')
+                    }
+                }
+                // 버튼 클릭핸들러 -> input -> getMovies(dt)호출
+            },
+            created() {
+                this.isLoading = true;
+                this.getMovies('20240603');
+            },
+
+
+        }).mount('#app')
+
+    </script>
+
+</body>
+
+</html>
