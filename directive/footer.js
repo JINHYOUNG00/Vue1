@@ -1,4 +1,4 @@
-const template = `<h3>푸터ddddd</h3>`;
+const template = `<h3>푸터입니다</h3>`;
 export default {
     template,
     data(){ return {
