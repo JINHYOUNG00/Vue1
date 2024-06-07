@@ -1,8 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import UserView from '../views/UserView.vue'
+import NestedView from '../views/NestedComponent.vue'
+import EmpFormView from '../views/EmpForm.vue'
+import EmpUpdateFormView from '../views/EmpUpdateForm.vue'
+
 
 const routes = [
+  {
+    path: '/empUpdateForm',
+    name: 'empUpdateForm',
+    component: EmpUpdateFormView
+  },
+  {
+    path: '/empForm',
+    name: 'empForm',
+    component: EmpFormView
+  },
+  {
+    path: '/nested',
+    name: 'nested',
+    component: NestedView
+  },
   {
     path: '/',
     name: 'home',
@@ -12,6 +31,11 @@ const routes = [
     path: '/user',
     name: 'user',
     component: UserView
+  },
+  {
+    path: '/emp',
+    name: 'emp',
+    component: ()=> import (/* webpackChunkName: "emp", webpackPrefetch: true */'../views/EmpView.vue')
   },
   {
     path: '/about',

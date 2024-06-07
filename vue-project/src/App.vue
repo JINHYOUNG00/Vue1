@@ -2,6 +2,8 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/user">User</router-link> |
+    <router-link to="/emp">Emp</router-link> |
+    <router-link to="/nested">자식</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
   <router-view/>
