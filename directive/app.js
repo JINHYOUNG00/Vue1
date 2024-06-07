@@ -6,12 +6,13 @@ import ifs from './if.js';
 import events from './event.js';
 import posts from './post.js';
 import todos from './todo.js';
+import router from './router.js';
 
 const {createApp} = Vue;
 const template = 
 /*html*/`   <div>
                 <headers/>
-                <todos/>
+                    <RouterView/>
                 <footers/>
             </div>`;
 
@@ -19,7 +20,7 @@ const template =
 const component = {
     template : template, // 화면
     name : "모듈연습", // 생략 가능
-    components: {headers, footers, dataBinding, fors, ifs,events, posts, todos},
+    components: {headers, footers},
     data(){ // 모델
         return {
             name: '홍길동',
@@ -43,4 +44,4 @@ const component = {
 
 }
 
-createApp(component).mount('#app')
+createApp(component).use(router).mount('#app')
