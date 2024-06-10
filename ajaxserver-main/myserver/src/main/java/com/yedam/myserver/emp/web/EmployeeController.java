@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,14 @@ public class EmployeeController {
 	public List<Employee> selectDepartment() {
 		return employeeDao.findEmployees();
 	}	
+	
+	//사원 ID검색
+	@GetMapping(value="/employees/{employee_id}")
+	public Employee findByIdParam(@PathVariable int employee_id) {
+		Employee emp = new Employee();
+		emp.setEmployee_id(employee_id);
+		return employeeDao.findById(emp);
+	}
 	
 	//사원 ID검색
 	@GetMapping(value="/empId")
